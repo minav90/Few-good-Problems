@@ -1,0 +1,82 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
+
+public class DFS {
+
+	Stack<Node> stack = new Stack<Node>();
+	int vertices_visited = 1;
+
+	public boolean search(Node root, int data) {
+		root.depth = 0;
+		stack.add(root);
+		Set<Node> explored = new HashSet<Node>();
+		int iterations = 1;
+		int max_frontier = 0;
+		while (!stack.isEmpty()) {
+			Node element = stack.pop();
+			max_frontier = max_frontier > stack.size() ? max_frontier : stack.size();
+			System.out.println("iter = " + iterations + ", frontier = " + max_frontier + ", popped = " + element.getId()
+					+ ", depth = " + element.depth + ", distToGoal = " + element.getHeur());
+			if (!explored.contains(element)) {
+				if (element.id == data) {
+					printResult(element, element.depth, iterations, max_frontier, vertices_visited);
+					return true;
+				}
+				addChildrens(explored, element);
+				explored.add(element);
+			}
+			iterations++;
+		}
+		System.out.println("Goal state cannot be reached from start state");
+		return false;
+	}
+
+	private void addChildrens(Set<Node> explored, Node element) {
+		for (Node successor : element.getSuccessors()) {
+			if (!explored.contains(successor) && !stack.contains(successor)) {
+				successor.depth = element.depth + 1;
+				successor.parent = element;
+				System.out.println("pushed = " + successor.getId());
+				stack.add(successor);
+				vertices_visited++;
+			}
+		}
+	}
+
+	private void printPathFromStartToGoal(Node element) {
+		ArrayList<Node> temp = traceBack(element);
+
+		System.out.println("                ");
+		Node startNode = temp.get(temp.size() - 1);
+		System.out.println("Start State = " + startNode.id + " X=" + startNode.getxCor() + " Y=" + startNode.getyCor());
+		for (int i = temp.size() - 2; i > 0; i--) {
+			Node tempNode = temp.get(i);
+			System.out.println(
+					"Vertex      = " + tempNode.getId() + " X=" + tempNode.getxCor() + " Y=" + tempNode.getyCor());
+		}
+		Node goalNode = temp.get(0);
+		System.out.println("Goal State  = " + goalNode.id + " X=" + goalNode.getxCor() + " Y=" + goalNode.getyCor());
+		System.out.println("                ");
+
+	}
+
+	private ArrayList<Node> traceBack(Node element) {
+		ArrayList<Node> temp = new ArrayList<Node>();
+		while (element != null) {
+			temp.add(element);
+			element = element.parent;
+		}
+		return temp;
+	}
+
+	private void printResult(Node element, int depth, int iterations, int max_frontier, int vertices_visited) {
+		printPathFromStartToGoal(element);
+		System.out.println("Total Iterations = " + iterations);
+		System.out.println("Max Frontier     = " + max_frontier);
+		System.out.println("Vertices Visited = " + vertices_visited);
+		System.out.println("path Length      = " + depth);
+	}
+
+}

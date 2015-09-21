@@ -1,0 +1,115 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class Connect {
+
+	static String current_status;
+	static String current_state;
+	static int remaining_guesses;
+	static String token;
+
+	public static void main(String[] args) throws JSONException {
+
+		try {
+
+			HttpURLConnection conn = intialConnection();
+
+			initialize(conn);
+			
+			while(current_status!="Dead")
+			{
+				
+			}
+
+			doPost("e");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private static HttpURLConnection intialConnection() throws MalformedURLException, IOException, ProtocolException {
+		URL url = new URL("http://gallows.hulu.com/play?code=minavpatel90@gmail.com");
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("Accept", "application/json");
+
+		if (conn.getResponseCode() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+		}
+		return conn;
+	}
+
+	private static void doPost(String guess) throws JSONException {
+		try {
+
+			HttpURLConnection conn = makeAGuess(guess);
+
+			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+			postIntialize(br);
+
+			conn.disconnect();
+
+		} catch (MalformedURLException e) {
+
+			e.printStackTrace();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}
+
+	}
+
+	private static HttpURLConnection makeAGuess(String guess)
+			throws MalformedURLException, IOException, ProtocolException {
+		URL url = new URL("http://gallows.hulu.com/play?code=minavpatel90@gmail.com&token=" + token + "&guess="+guess);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("Accept", "application/json");
+
+		if (conn.getResponseCode() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+		}
+		return conn;
+	}
+
+	private static void postIntialize(BufferedReader br) throws IOException, JSONException {
+		String output = br.readLine();
+		System.out.println(br.readLine());
+		JSONObject json = new JSONObject(output);
+		System.out.println(output);
+		current_status = json.getString("status");
+		current_state = json.getString("state");
+		remaining_guesses = json.getInt("remaining_guesses");
+	}
+
+	private static void initialize(HttpURLConnection conn) throws IOException, JSONException {
+		BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+		String output = br.readLine();
+		System.out.println(br.readLine());
+		JSONObject json = new JSONObject(output);
+		System.out.println(output);
+		current_status = json.getString("status");
+		current_state = json.getString("state");
+		token = json.getString("token");
+		remaining_guesses = json.getInt("remaining_guesses");
+	}
+
+	private static HttpURLConnection getConnection() throws MalformedURLException, IOException, ProtocolException {
+		HttpURLConnection conn = intialConnection();
+		return conn;
+	}
+}

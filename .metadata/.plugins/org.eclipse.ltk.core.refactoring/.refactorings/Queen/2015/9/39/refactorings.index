@@ -1,0 +1,3 @@
+1442795722110	Extract method 'getNumberOfQueen'
+1442795810172	Extract method 'initializeArray'
+1442799233267	Extract method 'oppDiagonal'

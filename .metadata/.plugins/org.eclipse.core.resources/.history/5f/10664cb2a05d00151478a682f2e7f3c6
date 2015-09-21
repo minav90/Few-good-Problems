@@ -1,0 +1,153 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+
+import javax.crypto.Mac;
+
+public class GenerateNodes {
+
+	static HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
+
+	public static void main(String[] args) throws IOException {
+
+		/** preparing graph from input file */
+		prepareGraphFromFileInput();
+
+		Scanner in = new Scanner(System.in);
+		System.out.println("Welcome!!! to the Search Comparison");
+
+		while (true) {
+			System.out.println("    ");
+			System.out.println("Enter Start Vertex Co-ordinates x & y with space");
+			StringTokenizer startVertex = new StringTokenizer(in.nextLine());
+			int source_vertex_xCor = Integer.parseInt(startVertex.nextToken());
+			int source_vertex_yCor = Integer.parseInt(startVertex.nextToken());
+			int source_vertex = getVertex(source_vertex_xCor, source_vertex_yCor);
+			
+			System.out.println("Enter Goal Vertex Co-ordinates x & y with space");
+			StringTokenizer goalVertex = new StringTokenizer(in.nextLine());
+			int goal_vertex_xCor = Integer.parseInt(goalVertex.nextToken());
+			int goal_vertex_yCor = Integer.parseInt(goalVertex.nextToken());
+			int goal_vertex = Integer.parseInt(in.nextLine());
+
+			Node root = nodes.get(source_vertex);
+			Node goal = nodes.get(goal_vertex);
+
+			int data = goal.getId();
+
+			/** BFS Search */
+			doBFSSearch(root, data);
+
+			/** DFS Search */
+			doDFSSearch(root, data);
+
+			/** Computing Heuristic value for nodes */
+			computeHeuristicVal(goal);
+
+			/** GreedyBFS Search */
+			doGreedyBFSSearch(root, data);
+			System.out.println("   ");
+			System.out.println("Do you want to enter next input enter Y/N");
+			String input = in.nextLine();
+			if(!(input.toLowerCase().equals("y")))
+			{
+				System.out.println("----------BYE-------------");
+				break;
+			}
+				
+		}
+
+	}
+
+	private static int getVertex(int source_vertex_xCor, int source_vertex_yCor) {
+		for(int i=0;i<nodes.size();i++)
+		{
+			if(nodes.get(i).getxCor() == source_vertex_xCor && nodes.get(i).getyCor() == source_vertex_yCor)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	private static void prepareGraphFromFileInput() throws FileNotFoundException, IOException {
+
+		BufferedReader bIS = new BufferedReader(new FileReader("./src/Input"));
+
+		int number_of_vertices = getNumberOfVertices(bIS);
+		for (int i = 0; i < number_of_vertices; i++) {
+			StringTokenizer vertice = new StringTokenizer(bIS.readLine());
+			createNode(nodes, vertice);
+		}
+
+		int number_of_edges = getNumerOfEdges(bIS);
+		for (int i = 0; i < number_of_edges; i++) {
+			StringTokenizer edge = new StringTokenizer(bIS.readLine());
+			addEdgeToNodes(edge);
+		}
+	}
+
+	private static void computeHeuristicVal(Node goal) {
+		for (int i = 0; i < nodes.size(); i++) {
+			Node source = nodes.get(i);
+			source.setHeur(calculateHeuristicVal(goal, source));
+		}
+	}
+
+	private static void doGreedyBFSSearch(Node root, int data) {
+		GreedyBFS greedybfs = new GreedyBFS();
+		System.out.println("                          ");
+		greedybfs.search(root, data);
+	}
+
+	private static void doDFSSearch(Node root, int data) {
+		DFS dfs = new DFS();
+		dfs.search(root, data);
+	}
+
+	private static void doBFSSearch(Node root, int data) {
+		BFS bfs = new BFS();
+		bfs.search(root, data);
+		System.out.println("                          ");
+	}
+
+	private static float calculateHeuristicVal(Node goal, Node source) {
+		return (float) Math.sqrt(Math.pow(Math.abs(source.getxCor() - goal.getxCor()), 2)
+				+ Math.pow(Math.abs(source.getyCor() - goal.getyCor()), 2));
+	}
+
+	private static void addEdgeToNodes(StringTokenizer edge) {
+		edge.nextToken();
+		Node currentElement = nodes.get(Integer.parseInt(edge.nextToken()));
+		Node successorElement = nodes.get(Integer.parseInt(edge.nextToken()));
+		currentElement.adjacents.add(successorElement);
+		successorElement.adjacents.add(currentElement);
+	}
+
+	private static int getNumerOfEdges(BufferedReader bIS) throws IOException {
+		StringTokenizer st = new StringTokenizer(bIS.readLine());
+		st.nextToken();
+		return Integer.parseInt(st.nextToken());
+	}
+
+	private static void createNode(HashMap<Integer, Node> nodes, StringTokenizer vertice) {
+		int id = Integer.parseInt(vertice.nextToken());
+		Node node = new Node(id);
+		node.setxCor(Integer.parseInt(vertice.nextToken()));
+		node.setyCor(Integer.parseInt(vertice.nextToken()));
+		nodes.put(id, node);
+	}
+
+	private static int getNumberOfVertices(BufferedReader bIS) throws IOException {
+		StringTokenizer st = new StringTokenizer(bIS.readLine());
+		st.nextToken();
+		return Integer.parseInt(st.nextToken());
+	}
+
+}

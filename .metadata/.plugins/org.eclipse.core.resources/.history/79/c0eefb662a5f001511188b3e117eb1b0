@@ -1,0 +1,217 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Random;
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class Connect {
+
+	static String current_status;
+	static String current_state;
+	static int remaining_guesses;
+	static String token;
+	static ArrayList<String> words;
+
+	public static void main(String[] args) throws JSONException {
+
+		try {
+
+			HttpURLConnection conn = getIntialConnection();
+
+			initialize(conn);
+
+			ReadDictionary read = new ReadDictionary();
+			words = read.getDictionary();
+			
+			HashMap<Integer, ArrayList<String>> tempList = new HashMap<Integer, ArrayList<String>>();
+
+			String st[] = current_state.split("[^\\w_]+");
+			for(int k=0;k<st.length;k++)
+			{
+				int number_of_words = st[k].length();
+				Iterator<String> it = words.iterator();
+				ArrayList<String> words = new ArrayList<String>();
+				while (it.hasNext()) {
+					String tempWord = it.next();
+					if (tempWord.length() == number_of_words)
+						words.add(tempWord);
+				}
+				tempList.put(number_of_words, words);
+			}
+
+			
+			ArrayList<String> found = new ArrayList<String>();
+			boolean flag = false;
+			while (!current_status.equals("DEAD") || remaining_guesses != 0) 
+				{
+					if (current_status.equals("FREE"))
+					{
+						flag=true;
+						System.out.println("Win");
+						break;
+					}
+                   
+					doPost(tempList, found);
+				}
+				if(!flag)
+				{
+					System.out.println("Lose");
+				}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/*private static void initialGuess(HashMap<Integer, ArrayList<String>> tempList) throws JSONException {
+		doPost("e",tempList);
+		doPost("a",tempList);
+	}*/
+
+	private static void doPost(HashMap<Integer,ArrayList<String>> tempList, ArrayList<String> found) throws JSONException {
+		try {
+            
+			char guess = generateGuess(tempList,found); 
+			System.out.println(guess);
+			
+			HttpURLConnection conn = makeAGuess(guess+"");
+
+			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+			postIntialize(br);
+
+			conn.disconnect();
+
+		} catch (Exception e) {
+                e.printStackTrace();
+		}
+
+	}
+
+	private static char generateGuess(HashMap<Integer, ArrayList<String>> tempList, ArrayList<String> found) {
+		
+		String words[] = current_state.split("[^\\w_]+");
+		int w=0;
+		int result_array[] = new int[256];
+		for(String word : words)
+		{   String temp = word;
+		    if(!temp.contains("_"))
+		    {
+		    	continue;
+		    }
+			ArrayList<String> dicWordList = tempList.get(word.length());
+			for(int i = 0;i<word.length();i++)
+			{
+				if(word.charAt(i)!=-1)
+				{
+					word = word.replace("_","[A-Z]");
+					word+="$";
+				    word = "^" + word;
+					for(int j=0;j<dicWordList.size();j++)
+					{
+						Pattern p = Pattern.compile(word);
+						String dicWord = dicWordList.get(j);
+						Matcher m = p.matcher(dicWord);
+						if(m.find())
+						{
+							for(int k=0;k<temp.length();k++)
+									{
+										if (temp.charAt(k) == '_')
+										{
+											char foundChar = dicWord.charAt(k);
+											result_array[foundChar]++;
+										}
+									}
+						}
+					}
+				}
+				int maxInt=0;
+				int maxValOfChar = 0;
+				for(int p=65;p<=90;p++)
+				{
+					if(result_array[p] > maxInt && !found.contains((char)p+""))
+					{	maxValOfChar = p;
+					    maxInt = result_array[p];
+					}
+				}
+				found.add(((char) maxValOfChar)+"");
+				return (char) maxValOfChar;
+				
+			}
+		}
+		
+		return (char) randInt(65, 90,found);
+	}
+	
+	public static int randInt(int min, int max, ArrayList<String> found) {
+
+	    Random rand = null;
+	    int randomNum = rand.nextInt((max - min) + 1) + min;
+		while (!found.contains(((char) randomNum) + "")) {
+			randomNum = rand.nextInt((max - min) + 1) + min;
+		}
+        found.add((char)randomNum+"");
+	    return randomNum;
+	}
+
+	private static HttpURLConnection makeAGuess(String guess)
+			throws MalformedURLException, IOException, ProtocolException {
+		URL url = new URL(
+				"http://gallows.hulu.com/play?code=minavpatel90@gmail.com&token=" + token + "&guess=" + guess);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("Accept", "application/json");
+
+		if (conn.getResponseCode() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+		}
+		return conn;
+	}
+
+	private static void postIntialize(BufferedReader br) throws IOException, JSONException {
+		String output = br.readLine();
+		JSONObject json = new JSONObject(output);
+		System.out.println(output);
+		current_status = json.getString("status");
+		current_state = json.getString("state");
+		remaining_guesses = json.getInt("remaining_guesses");
+	}
+
+	private static void initialize(HttpURLConnection conn) throws IOException, JSONException {
+		BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+		String output = br.readLine();
+		JSONObject json = new JSONObject(output);
+		System.out.println(output);
+		current_status = json.getString("status");
+		current_state = json.getString("state");
+		token = json.getString("token");
+		remaining_guesses = json.getInt("remaining_guesses");
+	}
+
+	private static HttpURLConnection getIntialConnection() throws MalformedURLException, IOException, ProtocolException {
+		URL url = new URL("http://gallows.hulu.com/play?code=minavpatel90@gmail.com");
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("Accept", "application/json");
+
+		if (conn.getResponseCode() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+		}
+		return conn;
+	}
+
+}

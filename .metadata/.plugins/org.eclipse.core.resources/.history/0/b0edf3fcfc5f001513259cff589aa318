@@ -1,0 +1,77 @@
+import java.util.Scanner;
+
+public class Solution {
+
+	public static void main(String[] args) {
+		
+		int N = getNumberOfQueen();
+		
+		int[][] arr = initializeArray(N);
+		
+		boolean val = placeQueen(N,arr,0);
+		System.out.println("result ="+ val);
+		
+	}
+
+	private static boolean placeQueen(int N, int[][] arr, int kingNo) {
+		if(kingNo == N)
+		{
+			return true;
+		}
+		for(int col = 0; col < N ; col++)
+		{
+			if(arr[kingNo][col] == 0 && isSafe(kingNo,col,arr))
+			{
+			        arr[kingNo][col] = 1;
+			        if(!placeQueen(N, arr, kingNo+1))
+			        {
+			        	arr[kingNo][col] = 0;
+			        }
+			}
+		}
+		if(kingNo!=N)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	private static boolean isSafe(int kingNo, int col, int[][] arr) {
+		
+        for(int i=0 ; i<arr.length; i++)
+        {
+        	for(int j=0; j<arr.length; j++)
+        	{
+        		if(i == kingNo || j== col)
+        		{
+        			if(arr[i][j] == 1)
+        			{
+        				return false;
+        			}
+        		}
+        	}
+        }
+		
+		return true;
+	}
+
+	private static int[][] initializeArray(int N) {
+		int arr[][] = new int[N][N];
+		for(int i=0;i<N;i++)
+		{
+			for(int j=0;j<N;j++)
+			{
+				arr[i][j]=0;
+			}
+		}
+		return arr;
+	}
+
+	private static int getNumberOfQueen() {
+		System.out.println("Welcome To N Queen Problem");
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter Number of Queen");
+		int N = sc.nextInt();
+		return N;
+	}
+}

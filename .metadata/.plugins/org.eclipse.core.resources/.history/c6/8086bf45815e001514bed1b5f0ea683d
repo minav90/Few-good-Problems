@@ -1,0 +1,83 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
+import java.util.Stack;
+
+public class BFS {
+
+	Queue<Node> queue = new LinkedList<Node>();
+	int vertices_visited = 1;
+
+	public boolean search(Node root, int data) {
+		root.depth = 0;
+		queue.add(root);
+		Set<Node> explored = new HashSet<Node>();
+		int iterations = 1;
+		int max_frontier = 0;
+		while (!queue.isEmpty()) {
+			Node element = queue.remove();
+			max_frontier = max_frontier > queue.size() ? max_frontier : queue.size();
+			System.out.println("iter = " +iterations+", frontier = "+max_frontier+", popped = "+element.getId()+", depth = "+element.depth+", distToGoal = "+element.getHeur());
+			if (!explored.contains(element)) {
+				if (element.id == data) {
+					printResult(element, element.depth, iterations, max_frontier, vertices_visited);
+					return true;
+				}
+				addChilderns(explored, element);
+				explored.add(element);
+			}
+			iterations++;
+		}
+		System.out.println("Goal state cannot be reached from start state");
+		return false;
+	}
+
+	private void addChilderns(Set<Node> explored, Node element) {
+		for (Node successor : element.getSuccessors()) {
+			if (!explored.contains(successor) && !queue.contains(successor)) {
+				successor.depth = element.depth + 1;
+				successor.parent = element;
+				queue.add(successor);
+				vertices_visited++;
+			}
+		}
+	}
+
+	private void printResult(Node element, int depth, int iterations, int max_frontier, int vertices_visited) {
+		System.out.println("-------------------------");
+		printPathFromStartToGoal(element);
+		System.out.println("Total Iterations = " + iterations);
+		System.out.println("Max Frontier     = " + max_frontier);
+		System.out.println("Vertices Visited = " + vertices_visited);
+		System.out.println("path Length      = " + depth);
+	}
+
+	private void printPathFromStartToGoal(Node element) {
+		ArrayList<Node> temp = traceBack(element);
+		
+		System.out.println("                ");
+		Node startNode = temp.get(temp.size()-1);
+		System.out.println("Start State = "+ startNode.id+ " X=" + startNode.getxCor() + " Y=" + startNode.getyCor());
+		for(int i=temp.size()-2;i>0;i--)
+		{
+			Node tempNode = temp.get(i);
+			System.out.println("Vertex      = " + tempNode.getId() + " X=" + tempNode.getxCor() + " Y=" + tempNode.getyCor());
+		}
+		Node goalNode = temp.get(0);
+		System.out.println("Goal State  = "+ goalNode.id+ " X=" + goalNode.getxCor() + " Y=" + goalNode.getyCor());
+		System.out.println("                ");
+		
+	}
+
+	private ArrayList<Node> traceBack(Node element) {
+		ArrayList<Node> temp = new ArrayList<Node>();
+		while(element!=null)
+		{
+			temp.add(element);
+			element = element.parent;
+		}
+		return temp;
+	}
+}

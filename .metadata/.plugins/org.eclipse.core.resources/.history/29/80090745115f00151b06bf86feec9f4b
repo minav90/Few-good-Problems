@@ -1,0 +1,18 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+
+public class ReadDictionary {
+	
+	public ArrayList<String> getDictionary()
+	{
+
+		ArrayList<String> nodes = new ArrayList<String>();
+		String thisLine;
+		BufferedReader bIS = new BufferedReader(new FileReader("./dictionary.txt"));
+		return nodes;
+	
+	}
+	
+			   
+}

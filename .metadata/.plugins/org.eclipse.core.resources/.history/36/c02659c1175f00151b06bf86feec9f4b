@@ -1,0 +1,149 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.StringTokenizer;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class Connect {
+
+	static String current_status;
+	static String current_state;
+	static int remaining_guesses;
+	static String token;
+	static ArrayList<String> words;
+
+	public static void main(String[] args) throws JSONException {
+
+		try {
+
+			HttpURLConnection conn = intialConnection();
+
+			initialize(conn);
+
+			ReadDictionary read = new ReadDictionary();
+			words = read.getDictionary();
+			
+			HashMap<Integer, ArrayList<String>> tempList = new HashMap<Integer, ArrayList<String>>();
+
+			StringTokenizer st = new StringTokenizer(current_state, " ");
+			while (st.hasMoreTokens()) {
+				int number_of_words = st.nextToken().length();
+				Iterator<String> it = words.iterator();
+				ArrayList<String> words = new ArrayList<String>();
+				while (it.hasNext()) {
+					String tempWord = it.next();
+					if (tempWord.length() == number_of_words)
+						words.add(tempWord);
+				}
+				tempList.put(number_of_words, words);
+			}
+
+			/*
+			 * while(!current_status.equals("DEAD") || remaining_guesses == 0) {
+			 * if(current_status.equals("FREE")) System.out.println("Win");
+			 */ 
+			 initialGuess(tempList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private static void initialGuess(HashMap<Integer, ArrayList<String>> tempList) throws JSONException {
+		doPost("e",tempList);
+		doPost("a",tempList);
+	}
+
+	private static void doPost(String guess,HashMap<Integer,ArrayList<String>> tempList) throws JSONException {
+		try {
+            
+			String guess1 = generateGuess(tempList); 
+			
+			HttpURLConnection conn = makeAGuess(guess);
+
+			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+			postIntialize(br);
+
+			conn.disconnect();
+
+		} catch (Exception e) {
+
+		}
+
+	}
+
+	private static String generateGuess(HashMap<Integer, ArrayList<String>> tempList) {
+		
+		String []words = current_state.split(" ");
+		for(int i=0;i<current_state.length();i++)
+		{
+			
+		}
+		
+		
+		
+		
+		return null;
+	}
+
+	private static HttpURLConnection makeAGuess(String guess)
+			throws MalformedURLException, IOException, ProtocolException {
+		URL url = new URL(
+				"http://gallows.hulu.com/play?code=minavpatel90@gmail.com&token=" + token + "&guess=" + guess);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("Accept", "application/json");
+
+		if (conn.getResponseCode() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+		}
+		return conn;
+	}
+
+	private static void postIntialize(BufferedReader br) throws IOException, JSONException {
+		String output = br.readLine();
+		System.out.println(br.readLine());
+		JSONObject json = new JSONObject(output);
+		System.out.println(output);
+		current_status = json.getString("status");
+		current_state = json.getString("state");
+		remaining_guesses = json.getInt("remaining_guesses");
+	}
+
+	private static void initialize(HttpURLConnection conn) throws IOException, JSONException {
+		BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+		String output = br.readLine();
+		System.out.println(br.readLine());
+		JSONObject json = new JSONObject(output);
+		System.out.println(output);
+		current_status = json.getString("status");
+		current_state = json.getString("state");
+		token = json.getString("token");
+		remaining_guesses = json.getInt("remaining_guesses");
+	}
+
+	private static HttpURLConnection intialConnection() throws MalformedURLException, IOException, ProtocolException {
+		URL url = new URL("http://gallows.hulu.com/play?code=minavpatel90@gmail.com");
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setRequestProperty("Accept", "application/json");
+
+		if (conn.getResponseCode() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+		}
+		return conn;
+	}
+
+}

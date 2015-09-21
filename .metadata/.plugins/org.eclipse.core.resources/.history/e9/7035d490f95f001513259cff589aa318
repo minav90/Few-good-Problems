@@ -1,0 +1,14 @@
+import java.util.Scanner;
+
+public class Solution {
+
+	public static void main(String[] args) {
+		
+		System.out.println("Welcome To N Queen Problem");
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter Number of Queen");
+		int N = sc.nextInt();
+		
+		
+	}
+}

@@ -1,0 +1,17 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.StringTokenizer;
+
+public class ReadDictionary {
+	
+	static ArrayList<String> nodes = new ArrayList<String>();
+	
+	BufferedReader bIS = new BufferedReader(new FileReader("./dictionary.txt"));
+
+	for (int i = 0; i < number_of_vertices; i++) {
+		StringTokenizer vertice = new StringTokenizer(bIS.readLine());
+		createNode(nodes, vertice);
+	}
+}

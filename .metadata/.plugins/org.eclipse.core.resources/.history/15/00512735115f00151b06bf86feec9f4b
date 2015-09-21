@@ -1,0 +1,14 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class ReadDictionary throws FileNotFoundException, IOException{
+	
+	static ArrayList<String> nodes = new ArrayList<String>();
+	String thisLine;
+	BufferedReader bIS = new BufferedReader(new FileReader("./dictionary.txt"));
+
+			   
+}

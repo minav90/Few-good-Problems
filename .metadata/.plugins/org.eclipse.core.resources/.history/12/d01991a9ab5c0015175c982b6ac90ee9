@@ -1,0 +1,78 @@
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
+
+public class DFS {
+
+	Stack<Node> stack = new Stack<Node>();
+	int vertices_visited = 1;
+
+	public boolean search(Node root, int data) {
+		root.depth = 0;
+		stack.add(root);
+		Set<Node> explored = new HashSet<Node>();
+		int iterations = 1;
+		int max_frontier = 0;
+		while (!stack.isEmpty()) {
+			Node element = stack.pop();
+			max_frontier = max_frontier > stack.size() ? max_frontier : stack.size();
+			if (!explored.contains(element)) {
+				if (element.id == data) {
+					printResult(element, element.depth, iterations, max_frontier, vertices_visited);
+					return true;
+				}
+				for (Node successor : element.getSuccessors()) {
+					if (!explored.contains(successor) && !stack.contains(successor)) {
+						successor.depth = element.depth + 1;
+						successor.parent = element;
+						if (successor.id == data) {
+							printResult(successor, successor.depth, iterations, max_frontier, vertices_visited);
+							return true;
+						}
+						stack.add(successor);
+						vertices_visited++;
+					}
+				}
+				explored.add(element);
+			}
+			iterations++;
+		}
+		System.out.println("Goal state cannot be reached from start state");
+		return false;
+	}
+
+	private void addChildern(Node element, Set<Node> explored) {
+
+		for (Node successor : element.getSuccessors()) {
+			if (!explored.contains(successor) && !stack.contains(successor)) {
+				successor.depth = element.depth + 1;
+				successor.parent = element;
+				stack.add(successor);
+				vertices_visited++;
+			}
+		}
+
+	}
+
+	private void printElementsInThePathFromGoalToStart(Node element) {
+		System.out.println("Goal State = " + element.id + " X=" + element.getxCor() + " Y=" + element.getyCor());
+		element = element.parent;
+		while (element.parent != null) {
+			System.out.println("Vertice " + element.getId() + " X=" + element.getxCor() + " Y=" + element.getyCor());
+			element = element.parent;
+		}
+		System.out.println("Start State = " + element.id + " X=" + element.getxCor() + " Y=" + element.getyCor());
+		System.out.println("                ");
+	}
+
+	private void printResult(Node element, int depth, int iterations, int max_frontier, int vertices_visited) {
+		System.out.println("Search Algorithm = DFS");
+		System.out.println("-------------------------");
+		//printElementsInThePathFromGoalToStart(element);
+		System.out.println("Total Iterations = " + iterations);
+		System.out.println("Max Frontier     = " + max_frontier);
+		System.out.println("Vertices Visited = " + vertices_visited);
+		System.out.println("path Length      = " + depth);
+	}
+
+}
