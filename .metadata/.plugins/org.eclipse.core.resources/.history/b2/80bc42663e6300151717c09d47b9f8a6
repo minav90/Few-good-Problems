@@ -1,0 +1,16 @@
+
+public class SubNode {
+
+	String val;
+	boolean atCorrectPosition;
+	
+	public boolean isAtCorrectPosition() {
+		return atCorrectPosition;
+	}
+	public void setAtCorrectPosition(boolean atCorrectPosition) {
+		this.atCorrectPosition = atCorrectPosition;
+	}
+	
+	
+	
+}

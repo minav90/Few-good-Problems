@@ -1,0 +1,11 @@
+import java.awt.AWTException;
+import java.awt.Robot;
+
+public class MyFirstRobo extends Robot{
+
+	public MyFirstRobo() throws AWTException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+}

@@ -12,7 +12,7 @@
 <booleanAttribute key="overrideDebugPreferences" value="false"/>
 <intAttribute key="serverType" value="1"/>
 <intAttribute key="startActionType" value="1"/>
-<stringAttribute key="startPagePath" value=""/>
+<stringAttribute key="startPagePath" value="/RottenPotatoes/app/views/movies"/>
 <stringAttribute key="startPageUrl" value=""/>
 <booleanAttribute key="suspendOnDebuggerKeywords" value="true"/>
 <booleanAttribute key="suspendOnErrors" value="true"/>

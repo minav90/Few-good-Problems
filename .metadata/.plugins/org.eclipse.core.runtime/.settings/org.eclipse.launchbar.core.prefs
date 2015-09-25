@@ -1,0 +1,4 @@
+configDescList=org.eclipse.launchbar.core.descriptorType.default\:New_configuration,org.eclipse.launchbar.core.descriptorType.default\:FileCrawler,org.eclipse.launchbar.core.descriptorType.default\:GuessThePhrase,org.eclipse.launchbar.core.descriptorType.default\:Robocode,org.eclipse.launchbar.core.descriptorType.default\:Solution,org.eclipse.launchbar.core.descriptorType.default\:GenerateNodes,org.eclipse.launchbar.core.descriptorType.default\:HelloWorld,org.eclipse.launchbar.core.descriptorType.default\:World,org.eclipse.launchbar.core.descriptorType.default\:BlocksWorld
+eclipse.preferences.version=1
+org.eclipse.launchbar.core.descriptorType.default\:New_configuration/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:New_configuration/activeLaunchTarget=org.eclipse.remote.LocalServices\:Local

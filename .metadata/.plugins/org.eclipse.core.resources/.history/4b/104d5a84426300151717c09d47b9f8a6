@@ -1,0 +1,54 @@
+import java.util.ArrayList;
+
+public class Node {
+	
+	ArrayList<ArrayList<SubNode>> state;
+	
+	int heuristicVal;
+	int distFromRoot;
+    int finalFunctionalVal;
+	
+	
+
+	public int getFinalFunctionalVal() {
+		finalFunctionalVal = heuristicVal + distFromRoot;
+		return finalFunctionalVal;
+	}
+
+	public int getHeuristicVal() {
+		return heuristicVal;
+	}
+
+	public void setHeuristicVal(int heuristicVal) {
+		this.heuristicVal = heuristicVal;
+	}
+
+	public int getDistFromRoot() {
+		return distFromRoot;
+	}
+
+	public void setDistFromRoot(int distFromRoot) {
+		this.distFromRoot = distFromRoot;
+	}
+
+	public ArrayList<ArrayList<SubNode>> getState() {
+		return state;
+	}
+
+	public void setState(ArrayList<ArrayList<SubNode>> state) {
+		this.state = state;
+	}
+
+	public Node(ArrayList<ArrayList<SubNode>> state) {
+		super();
+		this.state = state;
+	}
+
+		
+	
+	
+	
+	
+}
+
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<libraryInfos>
+<libraryInfo home="/usr/bin" version="1.9.3" vmTypeId="org.rubypeople.rdt.launching.StandardVMType">
+<bootpath>
+<entry path="/usr/local/lib/site_ruby/1.9.1"/>
+<entry path="/usr/local/lib/site_ruby/1.9.1/x86_64-linux"/>
+<entry path="/usr/local/lib/site_ruby"/>
+<entry path="/usr/lib/ruby/vendor_ruby"/>
+<entry path="/usr/lib/ruby/1.9.1"/>
+<entry path="/usr/lib/ruby/1.9.1/x86_64-linux"/>
+</bootpath>
+</libraryInfo>
+<libraryInfo home="/usr" version="1.9.3" vmTypeId="org.rubypeople.rdt.launching.StandardVMType">
+<bootpath>
+<entry path="/usr/local/lib/site_ruby/1.9.1"/>
+<entry path="/usr/local/lib/site_ruby/1.9.1/x86_64-linux"/>
+<entry path="/usr/local/lib/site_ruby"/>
+<entry path="/usr/lib/ruby/vendor_ruby"/>
+<entry path="/usr/lib/ruby/1.9.1"/>
+<entry path="/usr/lib/ruby/1.9.1/x86_64-linux"/>
+</bootpath>
+</libraryInfo>
+</libraryInfos>

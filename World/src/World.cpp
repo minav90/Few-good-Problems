@@ -1,0 +1,25 @@
+//============================================================================
+// Name        : World.cpp
+// Author      : Minav
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
+	static const int arr[] = {16,2,77,29};
+	vector<int> vec (arr, arr + sizeof(arr) / sizeof(arr[0]) );
+	for (std::vector<int>::iterator it = vec.begin() ; it != vec.end(); ++it)
+	    std::cout << ' ' << *it;
+	  std::cout << '\n';
+
+
+
+
+	return 0;
+}

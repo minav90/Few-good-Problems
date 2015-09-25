@@ -1,0 +1,25 @@
+import java.util.ArrayList;
+
+public class Node {
+	
+	ArrayList<ArrayList<String>> state;;
+
+	public Node(ArrayList<ArrayList<String>> state) {
+		this.state = state;
+	}
+
+	public ArrayList<ArrayList<String>> getState() {
+		return state;
+	}
+
+	public void setState(ArrayList<ArrayList<String>> state) {
+		this.state = state;
+	}
+	
+	
+	
+	
+	
+}
+
+

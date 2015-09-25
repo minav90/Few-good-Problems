@@ -1,0 +1,23 @@
+//============================================================================
+// Name        : World.cpp
+// Author      : Minav
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
+	std::vector<int> arr(2);
+	arr = { 34,23 };
+	int curr = arr.front();
+	cout << curr << endl;
+
+
+
+	return 0;
+}

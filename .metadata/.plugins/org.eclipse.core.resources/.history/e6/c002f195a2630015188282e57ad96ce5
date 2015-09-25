@@ -1,0 +1,63 @@
+import java.util.ArrayList;
+
+public class BlocksWorld {
+
+	static int no_of_blocks = 5;
+	public static void main(String[] args) {
+
+		Node intialState = new Node(intialState());
+		intialState.setStateCondition("#B#CE#AD");
+		intialState.setDistFromRoot(0);
+		intialState.setHeuristicVal(computeHeuristicVal(intialState,0));
+		GreedyQueue queue = new GreedyQueue();
+		queue.search(intialState);
+	}
+
+	private static ArrayList<ArrayList<SubNode>> intialState() {
+		ArrayList<SubNode> target = new ArrayList<SubNode>();
+		target.add(new SubNode("B", false));
+		ArrayList<SubNode> arr1 = new ArrayList<SubNode>();
+		arr1.add(new SubNode("C", false));
+		arr1.add(new SubNode("E", false));
+		ArrayList<SubNode> arr2 = new ArrayList<SubNode>();
+		arr1.add(new SubNode("A", false));
+		arr1.add(new SubNode("D", false));
+		ArrayList<ArrayList<SubNode>> state = new ArrayList<ArrayList<SubNode>>();
+		state.add(target);
+		state.add(arr1);
+		state.add(arr2);
+		return state;
+	}
+
+	public static int computeHeuristicVal(Node state, int correctVal) {
+		int finalHeuristic = 0;
+		int carry = 0;
+		ArrayList<ArrayList<SubNode>> stacks = state.getState();
+		int number_of_element_on_targetStack = stacks.get(0).size();
+		if (number_of_element_on_targetStack == correctVal) {
+			carry = 0;
+		} else {
+			carry = number_of_element_on_targetStack - correctVal;
+		}
+		for (int i = 0; i < stacks.size(); i++) {
+			ArrayList<SubNode> stack = stacks.get(i);
+			for (int j = 0; j < stack.size(); j++) {
+				SubNode subNode = stack.get(j);
+				if (subNode.isAtCorrectPosition()) {
+					finalHeuristic = finalHeuristic + 0;
+				} else {
+					int previousElement = (int) subNode.getVal().charAt(0) - 65;
+					if (j == stack.size() - 1) {
+						finalHeuristic = finalHeuristic + 1 + carry + (previousElement - correctVal);
+					} else {
+						finalHeuristic = finalHeuristic + (stack.size() - 1 - j) + carry + 1
+								+ (previousElement - correctVal);
+					}
+
+				}
+			}
+		}
+		return finalHeuristic;
+	}
+
+}

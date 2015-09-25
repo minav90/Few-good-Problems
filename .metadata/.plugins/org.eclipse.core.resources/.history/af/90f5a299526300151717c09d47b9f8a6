@@ -1,0 +1,171 @@
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.PriorityQueue;
+import java.util.Set;
+
+public class GreedyQueue {
+
+	PriorityQueue<Node> queue = new PriorityQueue<>(1, new Comparator<Node>() {
+		@Override
+		public int compare(Node o1, Node o2) {
+			if (o1.getFinalFunctionalVal() > o2.getFinalFunctionalVal())
+				return 1;
+			else if (o1.getFinalFunctionalVal() == o2.getFinalFunctionalVal())
+				return 0;
+			else
+				return -1;
+		}
+	});
+
+	int stateVisited = 1;
+
+	public boolean search(Node root) {
+		queue.add(root);
+		Set<Node> explored = new HashSet<Node>();
+		int iterations = 1;
+		int max_frontier = 0;
+		while (!queue.isEmpty()) {
+			Node element = queue.poll();
+			max_frontier = max_frontier > queue.size() ? max_frontier : queue.size();
+			if (!check(explored, element)) {
+				explored.add(element);
+				for (Node successor : getSuccessors(element)) {
+					if (!check(explored, successor) && !check(queue, successor)) {
+						if (checkGoalState(successor) == BlocksWorld.no_of_blocks) {
+							System.out.println("Goal state Reached");
+							return true;
+						}
+						successor.distFromRoot = element.distFromRoot + 1;
+						successor.setHeuristicVal(BlocksWorld.computeHeuristicVal(successor));
+						successor.parent = element;
+						queue.offer(successor);
+						stateVisited++;
+						iterations++;
+					}
+				}
+			}
+		}
+		System.out.println("Goal state cannot be reached from start state");
+		return false;
+	}
+
+	private int checkGoalState(Node successor) {
+
+		int totalCorrectVal = 0;
+		String stateCondition = null;
+		ArrayList<ArrayList<SubNode>> state = successor.getState();
+		for (int i = 0; i < state.size(); i++) {
+			ArrayList<SubNode> stack = state.get(i);
+			stateCondition = stateCondition + "#";
+			for (int j = 0; j < stack.size(); j++) {
+				if (stack.get(j).isAtCorrectPosition()) {
+					totalCorrectVal = totalCorrectVal + 1;
+				}
+				stateCondition = stateCondition + stack.get(j).getVal();
+			}
+		}
+		successor.setStateCondition(stateCondition);
+		return totalCorrectVal;
+	}
+
+	private ArrayList<Node> getSuccessors(Node element) {
+
+		ArrayList<Node> successors = new ArrayList<Node>();
+		ArrayList<ArrayList<SubNode>> state = element.getState();
+		for (int i = 0; i < state.size(); i++) {
+			ArrayList<SubNode> processingStack = state.get(i);
+			SubNode topSubNode = processingStack.get(processingStack.size() - 1);
+			String topElement = topSubNode.getVal();
+			if (topSubNode.isAtCorrectPosition()) {
+				continue;
+			}
+			successors.add(generateState(state, topElement, i));
+		}
+		return successors;
+	}
+
+	private Node generateState(ArrayList<ArrayList<SubNode>> state, String topElement, int currStack) {
+		ArrayList<Node> newNodes = new ArrayList<Node>();
+		int stackToInsert = 0;
+		for(int i=0;i<state.size()-1;i++)
+		{
+			ArrayList<ArrayList<SubNode>> newState = new ArrayList<ArrayList<SubNode>>();
+
+			for (int j = 0; j < state.size(); j++) {
+				ArrayList<SubNode> temp = new ArrayList<SubNode>();
+				ArrayList<SubNode> stack = state.get(j);
+				for (int k = 0; k < stack.size(); k++) {
+					temp.add(stack.get(k));
+				}
+				if (j == currStack) {
+					temp.remove(stack.size() - 1);
+				}
+				newState.add(temp);
+			}
+			
+			for(int l = 0;l<newState.size();l++)
+			{
+			    if(l!=currStack)
+			    {
+			    	
+			    }
+			    stackToInsert++ ;
+			}
+			
+		}
+		
+		
+		
+		
+		
+		for (int j = 0; j < state.size(); j++) {
+			ArrayList<SubNode> temp = new ArrayList<SubNode>();
+			ArrayList<SubNode> stack = state.get(j);
+			for (int k = 0; k < stack.size(); k++) {
+				temp.add(stack.get(k));
+			
+			if (j != currStack) {
+				if (j == 0 && isCorrectPositon(stack, topElement)) {
+					temp.add(new SubNode(topElement, true));
+				} else {
+					temp.add(new SubNode(topElement, false));
+				}
+			} else {
+				temp.remove(stack.size() - 1);
+			}
+			newState.add(temp);
+		}
+		return new Node(newState);
+	}
+
+	private boolean isCorrectPositon(ArrayList<SubNode> stack, String topElement) {
+
+		int elemenetVal = (int) topElement.charAt(0) - 65;
+		if (stack.size() == elemenetVal) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean check(Set<Node> explored, Node element) {
+
+		for (Node state : explored) {
+			if (state.getStateCondition().equals(element.getStateCondition())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean check(PriorityQueue<Node> queue, Node element) {
+
+		for (Node state : queue) {
+			if (state.getStateCondition().equals(element.getStateCondition())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+}

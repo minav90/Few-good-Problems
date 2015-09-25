@@ -1,0 +1,13 @@
+import robocode.Robot;
+
+public class MyFirstRobo extends Robot{
+
+	public void run()
+	{
+		while(true)
+		{
+             ahead(100);
+		}
+	}
+
+}

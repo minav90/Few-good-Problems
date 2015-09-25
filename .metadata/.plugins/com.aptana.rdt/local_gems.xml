@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gems>
+	<gem>
+		<name>rspec</name>
+		<version>3.3.0</version>
+		<description>rspec-autotest (1.0.0) rspec-core (3.3.2, 3.0.0.rc1) rspec-expectations (3.3.1) rspec-mocks (3.3.2) rspec-support (3.3.0, 3.0.0.rc1)</description>
+		<platform>ruby</platform>
+	</gem>
+</gems>

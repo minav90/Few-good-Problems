@@ -1,0 +1,26 @@
+import robocode.Robot;
+import robocode.ScannedRobotEvent;
+
+public class MyFirstRobo extends Robot{
+
+	public void run()
+	{
+		while(true)
+		{
+             ahead(100);
+             turnLeft(100);
+             turnGunLeft(200);
+             back(100);
+             turnRight(200);
+             turnGunRight(300);
+		}
+	}
+	
+	public void onScannedRobot(ScannedRobotEvent e)
+	{
+		if (e.getDistance() == 50) {
+			fire(1);
+		}
+	}
+
+}

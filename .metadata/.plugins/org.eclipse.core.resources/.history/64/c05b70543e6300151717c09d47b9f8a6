@@ -1,0 +1,26 @@
+
+public class SubNode {
+
+	int String;
+	boolean atCorrectPosition;
+	
+	public SubNode(int string, boolean atCorrectPosition) {
+		String = string;
+		this.atCorrectPosition = atCorrectPosition;
+	}
+	public int getString() {
+		return String;
+	}
+	public void setString(int string) {
+		String = string;
+	}
+	public boolean isAtCorrectPosition() {
+		return atCorrectPosition;
+	}
+	public void setAtCorrectPosition(boolean atCorrectPosition) {
+		this.atCorrectPosition = atCorrectPosition;
+	}
+	
+	
+	
+}

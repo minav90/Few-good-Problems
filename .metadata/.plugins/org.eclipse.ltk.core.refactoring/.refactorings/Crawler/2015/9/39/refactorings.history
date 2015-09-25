@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;Crawl.java&apos; to &apos;FileCrawler.java&apos;&#x0A;- Original project: &apos;Crawler&apos;&#x0A;- Original element: &apos;Crawl.java&apos;&#x0A;- Renamed element: &apos;FileCrawler.java&apos;" description="Rename compilation unit &apos;Crawl.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;{Crawl.java" name="FileCrawler.java" references="false" stamp="1442814831883" version="1.0"/>
+</session>

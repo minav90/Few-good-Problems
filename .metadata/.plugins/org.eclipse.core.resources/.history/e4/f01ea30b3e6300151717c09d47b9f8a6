@@ -1,0 +1,8 @@
+
+public class SubNode {
+
+	int String;
+	boolean atCorrectPosition;
+	
+	
+}
