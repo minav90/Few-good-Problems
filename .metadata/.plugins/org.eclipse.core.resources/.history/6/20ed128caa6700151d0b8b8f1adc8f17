@@ -1,0 +1,10 @@
+import java.util.ArrayList;
+
+public class TourManager {
+
+	ArrayList<City> tourCities = new ArrayList<City>();
+	
+	
+	
+	
+}

@@ -1,0 +1,28 @@
+
+public class City {
+
+	int xCor;
+	int ycor;
+	
+	public int getxCor() {
+		return xCor;
+	}
+	public void setxCor(int xCor) {
+		this.xCor = xCor;
+	}
+	public int getYcor() {
+		return ycor;
+	}
+	public void setYcor(int ycor) {
+		this.ycor = ycor;
+	}
+	
+	public double distance(City source,City dest)
+	{
+		
+		
+		return 0;
+		
+	}
+	
+}

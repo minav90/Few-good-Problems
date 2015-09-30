@@ -1,0 +1,14 @@
+import java.util.ArrayList;
+
+public class TourManager {
+
+	ArrayList<City> tourCities = new ArrayList<City>();
+	
+	public void addCities(City city)
+	{
+		tourCities.add(city);
+	}
+	
+	
+	
+}

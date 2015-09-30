@@ -1,0 +1,23 @@
+import java.util.Random;
+
+public class Tour {
+
+	public double getDistance()
+	{ 
+		City source = ()
+		
+       
+		
+		
+		return 0;
+		
+	}
+	
+	public getRanInt(int min,int max)
+	{
+		Random random = new Random();
+		return (random.nextInt(max - min + 1) + min)
+	}
+	
+	
+}

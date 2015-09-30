@@ -1,0 +1,29 @@
+
+public class City {
+
+	int xCor;
+	int yCor;
+	
+	public int getyCor() {
+		return yCor;
+	}
+	public void setyCor(int yCor) {
+		this.yCor = yCor;
+	}
+	public int getxCor() {
+		return xCor;
+	}
+	public void setxCor(int xCor) {
+		this.xCor = xCor;
+	}
+	
+	
+	public double distance(City source,City dest)
+	{
+		double squareDist = Math.pow((source.getxCor() - dest.getxCor()), 2) + Math.pow((source.getyCor() - dest.getyCor()), 2);
+		double distance = Math.sqrt(squareDist);
+		return distance;
+		
+	}
+	
+}

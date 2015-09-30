@@ -25,10 +25,11 @@ public class GreedyQueue {
 		int iterations = 0;
 		int goalStateChecked = 0;
 		int max_frontier = 0;
+		
 		while (!queue.isEmpty()) {
 			Node element = queue.poll();
-			System.out.println(element.stateCondition +"  HeuristicValue = "+ element.heuristicVal + " Depth = "+ element.distFromRoot + " finalValue = "+ element.finalFunctionalVal);
-			max_frontier = max_frontier > queue.size() ? max_frontier : queue.size();
+           	//System.out.println("iter = "+ iterations + " queue = "+ queue.size() + " f=g+h= "+ element.getFinalFunctionalVal()+" depth = "+element.getDistFromRoot());
+			//System.out.println("");
 			if (!check(explored, element)) {
 				explored.add(element);
 				for (Node successor : getSuccessors(element)) {
@@ -37,27 +38,68 @@ public class GreedyQueue {
 						successor.distFromRoot = element.distFromRoot + 1;
 						successor.setHeuristicVal(BlocksWorld.computeHeuristicVal(successor));
 						successor.parent = element;
+						max_frontier = max_frontier > queue.size() ? max_frontier : queue.size();
+						System.out.println("iterations = "+ iterations + " queue = "+ queue.size() + " f=g+h= "+ successor.getFinalFunctionalVal()+" depth = "+successor.getDistFromRoot());
 						if (isGoalState(successor)) {
-							System.out.println("Goal state Reached");
-							System.out.println("iter = "+iterations+" max frontier = "+ max_frontier +" depth = "+ successor.distFromRoot +" Goal_Test_Done = "+ goalStateChecked + " heuristicVal = " + successor.heuristicVal);
+							System.out.println("");
+							System.out.println("SUCCESS!!! depth = "+successor.distFromRoot+" Goal_Test_Done = "+ goalStateChecked+ " max_queue_size = "+ max_frontier);
+							System.out.println("");
+							printSolutionPath(successor);
+							System.out.println("-----------------------------------");
 							return true;
 						}
+						iterations++;
 						queue.offer(successor);
 						goalStateChecked++;
 					}
 				}
 			}
-			iterations++;
 		}
 		System.out.println("Goal state cannot be reached from start state");
 		return false;
+	}
+
+	private void printSolutionPath(Node successor) {
+
+		System.out.println("Solution Path :");
+		ArrayList<Node> path = new ArrayList<Node>();
+		while(successor!=null)
+		{
+			path.add(successor);
+			successor = successor.parent;
+		}
+		System.out.println("Initial state:");
+		for(int i=path.size()-1;i>0;i--)
+		{
+			printElement(path.get(i));
+			System.out.println("");
+		}
+		System.out.println("Goal state :");
+		printElement(path.get(0));
+	}
+
+	public void printElement(Node element) {
+
+		
+		ArrayList<ArrayList<SubNode>> state = element.getState();
+		for(int i=0;i<state.size();i++)
+		{
+			System.out.print(i+1 + "| ");
+			ArrayList<SubNode> stack = state.get(i);
+			for(int j=0;j<stack.size();j++)
+			{
+				System.out.print(stack.get(j).getVal()+" ");
+			}
+			System.out.println("");
+		}
+		
 	}
 
 	private boolean isGoalState(Node successor) {
 		return successor.getCorrectVal() == BlocksWorld.no_of_blocks;
 	}
 
-	private void computeConditionStateAndCorrectness(Node successor) {
+	public void computeConditionStateAndCorrectness(Node successor) {
 		int totalCorrectVal = 0;
 		String stateCondition = "";
 		ArrayList<ArrayList<SubNode>> state = successor.getState();

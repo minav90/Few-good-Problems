@@ -1,0 +1,8 @@
+1443641500830	Inline local variable 'squareDist'
+1443641505099	Inline local variable 'distance'
+1443641948764	Rename method 'addCities'
+1443642005339	Extract method 'initializeCities'
+1443643320448	Extract local variable 'acceptanceProbability'
+1443643621029	Copy compilation units
+1443643644664	Copy compilation units
+1443643678802	Copy compilation units
