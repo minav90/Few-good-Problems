@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Extract local variable &apos;direction&apos; from expression &apos;getHeading() - getRadarHeading() + e.getBearing()&apos;&#x0A;- Original project: &apos;MyRobo&apos;&#x0A;- Variable name: &apos;direction&apos;&#x0A;- Destination method: &apos;MyFirstRobo.onScannedRobot()&apos;&#x0A;- Variable expression: &apos;getHeading() - getRadarHeading() + e.getBearing()&apos;&#x0A;- Replace occurrences of expression with variable" description="Extract local variable &apos;direction&apos;" final="false" id="org.eclipse.jdt.ui.extract.temp" input="/src&lt;{MyFirstRobo.java" name="direction" replace="true" selection="313 49" stamp="1443852030252" version="1.0"/>
+</session>

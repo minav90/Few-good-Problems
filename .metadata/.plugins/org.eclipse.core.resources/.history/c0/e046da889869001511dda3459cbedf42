@@ -1,0 +1,44 @@
+import robocode.AdvancedRobot;
+import robocode.ScannedRobotEvent;
+
+public class MyFirstRobo extends AdvancedRobot{
+
+	private byte scanDirection = 1;
+	private byte moveDirection = 1;
+
+	public void run()
+	{
+		setAdjustRadarForRobotTurn(true);
+		setAdjustGunForRobotTurn(true);
+		while(true)
+		{
+			 turnRadarRight(180);
+			 turnRadarLeft(180);
+			 
+		}
+	}
+	
+	public void onScannedRobot(ScannedRobotEvent e)
+	{
+		scanDirection *= -1; // changes value from 1 to -1
+		double direction = getHeading() - getRadarHeading() + e.getBearing();
+		turnRadarRight(direction);
+		turnGunRight(direction);
+			
+			fireBullet(20);
+			fire(1);
+		
+	}
+	
+	public void doMove() {
+
+		// switch directions if we've stopped
+		if (getVelocity() == 0)
+			moveDirection *= -1;
+
+		// circle our enemy
+		setTurnRight(enemy.getBearing() + 90);
+		setAhead(1000 * moveDirection);
+	}
+
+}

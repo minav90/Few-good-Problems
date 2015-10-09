@@ -1,0 +1,7 @@
+
+public class AdvancedEnemyBot extends EnemyBot {
+	
+	private double x;
+	private double y;
+
+}

@@ -1,0 +1,5 @@
+
+public class EnemyBot {
+	private double bearing, distance, energy, heading, velocity; 
+	private String name;
+}

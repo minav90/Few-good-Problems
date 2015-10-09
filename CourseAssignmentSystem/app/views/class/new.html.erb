@@ -1,0 +1,36 @@
+<html>
+<head>
+  <%= javascript_include_tag "application" %>
+  <%= yield(:head) %>
+</head>
+
+<h1>Course Assignment System</h1>
+
+<h1>Add Classrooms and TimeSlots</h1>
+
+<%= form_for :class, url: class_index_path do |f| %>
+<%= collection_select(:post,"select", @roomDetails, :to_s , :to_s, {prompt: "Choose a Class"} ,{:onchange => "select()"}) %>
+<input type="button" id ="add" onclick="check()" value="Add New Class" />
+
+<h1> _________________________________________ </h1> 
+
+<p>
+<%= f.label "Class Name:" %>
+<%= f.text_field :name %>	
+</p>
+<p>
+<%= collection_select(:post,"select_time", TimeSlot.all, :id, :slot_num, {prompt: "Choose a Slot"} ,{:onchange => "select_time()"}) %>
+<%= f.text_field :slot_name %>
+</p>
+
+<p>
+<%= f.submit "Submit" %>
+
+<%= button_to 'Delete Class', class_path(f), data: { confirm: 'Are you sure?' } %> 
+</p> 
+<% end %>
+
+
+<%= button_to "Show ALL", class_path('show') %>
+
+</html>
