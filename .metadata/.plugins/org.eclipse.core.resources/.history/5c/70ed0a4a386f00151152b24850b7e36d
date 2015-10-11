@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TrackMEService</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+ 
+    <string name="Name">First Name</string>
+    <string name="Id">Last name</string>
+    <string name="Latitude">Email</string>
+    <string name="Longitude">Retrieve</string>
+    <string name="post">Post</string>
+    <string name="clear">Clear</string>
+    <string name="app_name">AndroidRESTClient</string>
+
+</resources>
