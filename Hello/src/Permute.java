@@ -6,7 +6,7 @@ public class Permute {
 	
 	public static void main(String[] args) {
 		
-		int num[] = new int[]{1,2,3};
+		int num[] = new int[]{1,2,1};
 		ArrayList<ArrayList<Integer>> res = permute(num);
 		
 		for(ArrayList<Integer> arr : res)
