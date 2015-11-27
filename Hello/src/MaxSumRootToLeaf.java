@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 
 public class MaxSumRootToLeaf {
 
@@ -16,7 +19,49 @@ public class MaxSumRootToLeaf {
 		root.right.left = new Node(15);
 		root.right.left.left = new Node(9);
 		// System.out.println(readBinaryTree(root));
-		System.out.println(maxSumRootToLeaf(root));
+		//System.out.println(maxSumRootToLeaf(root));
+		System.out.println("MinDepth = "+ minDepth(root));
+	}
+	
+	
+	public static int minDepth(Node root)
+	{
+		Queue<Node> q = new LinkedList<Node>();
+		q.add(root);
+		System.out.println(root.val);
+		int countLevel = 0;
+		while(!q.isEmpty())
+		{
+			int level = q.size();
+			countLevel++;
+			while(level > 0)
+			{
+				Node temp = q.poll();
+				if(temp.left == null && temp.right == null)
+				{
+					return countLevel; 
+				}
+				else
+				{
+					if(temp.left != null)
+					{
+						q.add(temp.left);
+						System.out.print(temp.left.val + " ");
+					}
+					if(temp.right != null)
+					{
+						q.add(temp.right);
+						System.out.print(temp.right.val + " ");
+					}
+					
+				}
+				level--;
+			}
+			System.out.println("");
+		}
+		
+		return 0;
+		
 	}
 
 	private static int maxSumRootToLeaf(Node root) {

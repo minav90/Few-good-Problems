@@ -34,7 +34,7 @@ public class PerfectBinaryTree {
 		if (root == null)
 			return 0;
 
-		return max(root.left.val, root.right.val) + 1;
+		return max(height(root.left),height(root.right)) + 1;
 	}
 
 	private static int max(int left, int right) {

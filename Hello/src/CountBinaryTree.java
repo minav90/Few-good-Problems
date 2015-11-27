@@ -13,7 +13,7 @@ public class CountBinaryTree {
 		int num[] = new int[n+1];
 		num[0]=1;
 		num[1]=1;
-		
+		 
 		for(int i=2;i<=n;i++)
 		{
 			for(int j=0;j<i;j++)

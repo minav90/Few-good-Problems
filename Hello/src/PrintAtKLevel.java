@@ -47,7 +47,6 @@ public class PrintAtKLevel {
 	}
 
 	static class Info {
-		ArrayList<Node> parent = new ArrayList<Node>();
 		ArrayList<Integer> visited = new ArrayList<Integer>();
 	}
 

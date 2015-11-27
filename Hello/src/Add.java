@@ -5,7 +5,7 @@ public class Add {
 	
     public static void main(String[] args) {
 		
-    	String num = "105";
+    	String num = "123";
     	int target = 5;
     	List<String> res = new ArrayList<String>();
         System.out.println(count(num,target,res,""));

@@ -3,7 +3,7 @@ public class EvenSubString {
 
 	public static void main(String[] args) {
 		
-	String res = "125485482687";
+	String res = "12548548287";
 	System.out.println(countEvenSubMaxStr(res));
 		
 		

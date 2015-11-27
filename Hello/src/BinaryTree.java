@@ -17,7 +17,7 @@ public class BinaryTree {
     root.right.right = new Node(8);
     root.right.left = new Node(15);
     root.right.left.left = new Node(9);
-    //System.out.println(readBinaryTree(root));
+    System.out.println(readBinaryTree(root));
     System.out.println(isComplete(root));
   }
 

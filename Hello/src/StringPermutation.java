@@ -1,14 +1,20 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class StringPermutation {
 
+	static int count;
 	public static void main(String[] args) {
 
-		System.out.println(permutations("abcde").size());
+		//System.out.println(permutations("abcde").size());
 		//List<String> res = new ArrayList<String>();
 		//perm("abcde","",res);
 		//System.out.println(res.size());
+		
+		newPerm("abcde".toCharArray(),0);
+		System.out.println(count);
 	}
 
 	public static void perm(String str, String prefix,List<String> res)
@@ -24,6 +30,40 @@ public class StringPermutation {
 		}
 	}
 	
+	public static void newPerm(char arr[], int pos)
+	{
+         if(pos == arr.length)
+         {
+        	 System.out.println(arr);
+        	 count++;
+        	 return; 
+         }
+         Set<Character> set = new HashSet<Character>();
+         for(int i=pos;i<arr.length;++i)
+         {
+        	 if(set.contains(arr[i]))
+        	 {
+        		 continue;
+        	 }
+        	 swap(arr,i,pos);
+        	 newPerm(arr, pos+1);
+        	 swap(arr, i, pos);
+        	 set.add(arr[i]);
+        	 
+         }
+         
+		
+		
+	}
+	
+	private static void swap(char[] arr, int i, int pos) {
+
+		char temp = arr[i];
+		arr[i] = arr[pos];
+		arr[pos] = temp;
+		
+	}
+
 	private static List<String> permutations(String s) {
 		List<String> permutations = new ArrayList<String>();
 		if (s == null) {
@@ -39,6 +79,7 @@ public class StringPermutation {
 				permutations.add(insertCharAt(permutation, s.charAt(0), i));
 			}
 		}
+		System.out.println(permutations);
 		return permutations;
 	}
 

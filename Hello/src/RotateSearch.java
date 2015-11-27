@@ -12,7 +12,7 @@ public class RotateSearch {
 		{
 			res.add(num);
 		}
-		System.out.println(search(res, 1));
+		System.out.println(search(res, 133));
 		
 	}
 	

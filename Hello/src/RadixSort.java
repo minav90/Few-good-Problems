@@ -4,6 +4,10 @@ public class RadixSort {
 	public static void main(String[] args) {
 	
 		int[] arr = new int[]{124,147,135,182,167,157,173,152,164,138};
+		for (int i = 0; i < arr.length; i++) {
+			 System.out.print(arr[i] + " " );
+		 }
+		 System.out.println("");
 		
 		 sort(arr);
 		
@@ -49,11 +53,12 @@ public class RadixSort {
 			 exp *= 10;
 			
 			
+			 for (int i = 0; i < arr.length; i++) {
+				 System.out.print(arr[i] + " " );
+			 }
+			 System.out.println("");
 		}
 		
-		 for (int i = 1; i < arr.length; i++) {
-		       System.out.print(arr[i] + " " );
-		    }
 		
 		
 		
